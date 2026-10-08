@@ -1,0 +1,41 @@
+#include <stdio.h>
+#include <string.h>
+
+#define MAX 100
+
+char stack[MAX];
+int top = -1;
+
+void push(char ch) {
+    stack[++top] = ch;
+}
+
+char pop() {
+    return stack[top--];
+}
+
+int main() {
+    char str[MAX];
+    int i, palindrome = 1;
+
+    printf("Enter a string: ");
+    scanf("%s", str);
+
+    for (i = 0; i < strlen(str); i++) {
+        push(str[i]);
+    }
+
+    for (i = 0; i < strlen(str); i++) {
+        if (str[i] != pop()) {
+            palindrome = 0;
+            break;
+        }
+    }
+
+    if (palindrome)
+        printf("String is Palindrome\n");
+    else
+        printf("String is NOT Palindrome\n");
+
+    return 0;
+}
