@@ -1,0 +1,45 @@
+#include <stdio.h>
+#include <string.h>
+
+int main()
+{
+    FILE *fp;
+    char city[100][50], name[50];
+    int std[100], i, n = 0, found = 0;
+
+    fp = fopen("cities.txt", "r");
+
+    if(fp == NULL)
+    {
+        printf("File not found");
+        return 0;
+    }
+
+    while(n < 100 &&
+          fscanf(fp, "%49s %d", city[n], &std[n]) == 2)
+    {
+        n++;
+    }
+
+    fclose(fp);
+
+    printf("Enter city name: ");
+    scanf("%49s", name);
+
+    for(i = 0; i < n; i++)
+    {
+        if(strcmp(city[i], name) == 0)
+        {
+            printf("City found\n");
+            printf("City: %s\nSTD Code: %d\n",
+                   city[i], std[i]);
+            found = 1;
+            break;
+        }
+    }
+
+    if(!found)
+        printf("City not in the list");
+
+    return 0;
+}
