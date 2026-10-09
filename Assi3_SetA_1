@@ -1,0 +1,36 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+    int a[100], n, x, i, pos = -1;
+
+    printf("Enter number of elements: ");
+    scanf("%d", &n);
+
+    printf("Random array elements are:\n");
+    for(i = 0; i < n; i++)
+    {
+        a[i] = rand() % 100;
+        printf("%d ", a[i]);
+    }
+
+    printf("\nEnter number to search: ");
+    scanf("%d", &x);
+
+    for(i = 0; i < n; i++)
+    {
+        if(a[i] == x)
+        {
+            pos = i;
+            break;
+        }
+    }
+
+    if(pos != -1)
+        printf("Number found at position %d", pos + 1);
+    else
+        printf("Number not found");
+
+    return 0;
+}
