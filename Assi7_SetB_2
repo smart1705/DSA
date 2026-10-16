@@ -1,0 +1,131 @@
+
+#include <stdio.h>
+#define MAX 5
+
+int Q[MAX];
+int front = -1, rear = -1;
+
+void init() {
+    front = rear = -1;
+}
+
+int isEmpty() {
+    return front == -1;
+}
+
+int isFull() {
+    return (rear + 1) % MAX == front;
+}
+
+void addFront(int x) {
+    if (isFull()) {
+        printf("Deque is full\n");
+        return;
+    }
+
+    if (isEmpty())
+        front = rear = 0;
+    else
+        front = (front - 1 + MAX) % MAX;
+
+    Q[front] = x;
+}
+
+void addRear(int x) {
+    if (isFull()) {
+        printf("Deque is full\n");
+        return;
+    }
+
+    if (isEmpty())
+        front = rear = 0;
+    else
+        rear = (rear + 1) % MAX;
+
+    Q[rear] = x;
+}
+
+void deleteFront() {
+    if (isEmpty()) {
+        printf("Deque is empty\n");
+        return;
+    }
+
+    printf("Deleted: %d\n", Q[front]);
+
+    if (front == rear)
+        init();
+    else
+        front = (front + 1) % MAX;
+}
+
+void deleteRear() {
+    if (isEmpty()) {
+        printf("Deque is empty\n");
+        return;
+    }
+
+    printf("Deleted: %d\n", Q[rear]);
+
+    if (front == rear)
+        init();
+    else
+        rear = (rear - 1 + MAX) % MAX;
+}
+
+void display() {
+    if (isEmpty()) {
+        printf("Deque is empty\n");
+        return;
+    }
+
+    int i = front;
+    printf("Deque: ");
+
+    while (1) {
+        printf("%d ", Q[i]);
+        if (i == rear)
+            break;
+        i = (i + 1) % MAX;
+    }
+
+    printf("\n");
+}
+
+int main() {
+    int ch, x;
+    init();
+
+    do {
+        printf("\n1.Init 2.AddFront 3.DeleteFront");
+        printf("\n4.AddRear 5.DeleteRear 6.Display");
+        printf("\n7.isEmpty 8.isFull 9.Exit");
+        printf("\nChoice: ");
+        scanf("%d", &ch);
+
+        switch (ch) {
+            case 1: init(); break;
+            case 2:
+                printf("Enter element: ");
+                scanf("%d", &x);
+                addFront(x);
+                break;
+            case 3: deleteFront(); break;
+            case 4:
+                printf("Enter element: ");
+                scanf("%d", &x);
+                addRear(x);
+                break;
+            case 5: deleteRear(); break;
+            case 6: display(); break;
+            case 7: printf("%s\n", isEmpty() ?
+                         "Empty" : "Not empty"); break;
+            case 8: printf("%s\n", isFull() ?
+                         "Full" : "Not full"); break;
+            case 9: break;
+            default: printf("Invalid choice\n");
+        }
+    } while (ch != 9);
+
+    return 0;
+}
