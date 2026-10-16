@@ -1,0 +1,84 @@
+
+#include <stdio.h>
+#define MAX 5
+
+int Q[MAX];
+int front = -1, rear = -1;
+
+void init() {
+    front = rear = -1;
+}
+
+int isEmpty() {
+    return front == -1;
+}
+
+int isFull() {
+    return (rear + 1) % MAX == front;
+}
+
+void add(int x) {
+    if (isFull()) {
+        printf("Queue is full\n");
+        return;
+    }
+
+    if (isEmpty())
+        front = 0;
+
+    rear = (rear + 1) % MAX;
+    Q[rear] = x;
+    printf("Element added\n");
+}
+
+void deleteQ() {
+    if (isEmpty()) {
+        printf("Queue is empty\n");
+        return;
+    }
+
+    printf("Deleted: %d\n", Q[front]);
+
+    if (front == rear)
+        front = rear = -1;
+    else
+        front = (front + 1) % MAX;
+}
+
+void peek() {
+    if (isEmpty())
+        printf("Queue is empty\n");
+    else
+        printf("Front: %d\n", Q[front]);
+}
+
+int main() {
+    int ch, x;
+    init();
+
+    do {
+        printf("\n1.Init 2.Add 3.Delete");
+        printf("\n4.Peek 5.isEmpty 6.isFull 7.Exit");
+        printf("\nChoice: ");
+        scanf("%d", &ch);
+
+        switch (ch) {
+            case 1: init(); break;
+            case 2:
+                printf("Enter element: ");
+                scanf("%d", &x);
+                add(x);
+                break;
+            case 3: deleteQ(); break;
+            case 4: peek(); break;
+            case 5: printf("%s\n", isEmpty() ?
+                         "Empty" : "Not empty"); break;
+            case 6: printf("%s\n", isFull() ?
+                         "Full" : "Not full"); break;
+            case 7: break;
+            default: printf("Invalid choice\n");
+        }
+    } while (ch != 7);
+
+    return 0;
+}
