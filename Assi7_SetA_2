@@ -1,0 +1,90 @@
+
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int data;
+    struct Node *next;
+};
+
+struct Node *rear = NULL;
+
+void init() {
+    rear = NULL;
+}
+
+int isEmpty() {
+    return rear == NULL;
+}
+
+void add(int x) {
+    struct Node *newNode = malloc(sizeof(struct Node));
+
+    if (newNode == NULL) {
+        printf("Memory allocation failed\n");
+        return;
+    }
+
+    newNode->data = x;
+
+    if (rear == NULL) {
+        newNode->next = newNode;
+        rear = newNode;
+    } else {
+        newNode->next = rear->next;
+        rear->next = newNode;
+        rear = newNode;
+    }
+
+    printf("Element added\n");
+}
+
+void deleteQ() {
+    if (isEmpty()) {
+        printf("Queue is empty\n");
+        return;
+    }
+
+    struct Node *front = rear->next;
+    printf("Deleted: %d\n", front->data);
+
+    if (front == rear)
+        rear = NULL;
+    else
+        rear->next = front->next;
+
+    free(front);
+}
+
+void peek() {
+    if (isEmpty())
+        printf("Queue is empty\n");
+    else
+        printf("Front element: %d\n", rear->next->data);
+}
+
+int main() {
+    int ch, x;
+    init();
+
+    do {
+        printf("\n1.Init 2.Add 3.Delete 4.Peek 5.Exit");
+        printf("\nEnter choice: ");
+        scanf("%d", &ch);
+
+        switch (ch) {
+            case 1: init(); printf("Queue initialized\n"); break;
+            case 2:
+                printf("Enter element: ");
+                scanf("%d", &x);
+                add(x);
+                break;
+            case 3: deleteQ(); break;
+            case 4: peek(); break;
+            case 5: printf("Exit\n"); break;
+            default: printf("Invalid choice\n");
+        }
+    } while (ch != 5);
+
+    return 0;
+}
